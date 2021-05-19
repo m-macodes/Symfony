@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Название</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set count = 1 %}
+        {% set fullPrice = 0 %}
+        {% for item in items %}
+            <tr>
+                <th scope="row">{{ count }}</th>
+                <td>{{ item.product.title }}</td>
+                <td>{{ item.count }}</td>
+                <td>{{ item.product.price * item.count }}</td>
+            </tr>
+            {% set count = count + 1 %}
+            {% set fullPrice = fullPrice + item.product.price * item.count %}
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <td></td>
+        <td></td>
+        <td>Итого</td>
+        <td>{{ fullPrice }}</td>
+        </tfoot>
+    </table>
+    <div class="d-flex justify-content-end"><a href="{{ path('shopOrder') }}" class="btn btn-sm btn-outline-secondary">Оформить заказ</a></div>
+{% endblock %}

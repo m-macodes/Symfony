@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" role="img"
+                     aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>
+                        Placeholder</title>
+                    <rect width="100%" height="100%" fill="#868e96"></rect>
+                    <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text>
+                </svg>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="me-auto p-2">
+                            <div class="pb-0"><h5 class="card-title">{{ item }}</h5></div>
+                            <div><small class="text-muted">{{ price }} руб.</small></div>
+                        </div>
+                        <div class="p-2"></div>
+                        <div class="p-2"><a href="{{ path('shopCartAdd', {'id':id}) }}" class="btn btn-sm btn-outline-secondary">Добавить в
+                                корзину</a></div>
+                    </div>
+                    <p class="card-text">{{ description }}</p>
+                </div>
+            </div>
+
+
+
+            <!--<div class="col-md-8">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-8 themed-grid-col">
+                            <div class="pb-0"><h5 class="card-title">{{ item }}</h5></div>
+                            <div><small class="text-muted">{{ price }} руб.</small></div>
+                        </div>
+                        <div class="col-md-4"><a href="{{ path('shopCartAdd', {'id':id}) }}" class="btn btn-sm btn-outline-secondary">Добавить в
+                                корзину</a></div>
+                    </div>
+                    <p class="card-text">{{ description }}</p>
+                </div>
+            </div>-->
+        </div>
+    </div>
+{% endblock %}
