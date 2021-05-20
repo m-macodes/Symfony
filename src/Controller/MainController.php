@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Checkout;
 use App\Entity\Items;
 use App\Entity\ShopingCart;
+use App\Form\CheckoutType;
 use App\Repository\ItemsRepository;
 use App\Repository\ShopingCartRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -90,21 +92,28 @@ class MainController extends AbstractController
     }
 
     #[Route('/order', name: 'shopOrder')]
-    public function ShopOrder(Request $request): Response
+    public function ShopOrder(Request $request, EntityManagerInterface $em): Response
     {
-        //  создаёт задачу и задаёт в ней фиктивные данные для этого примера
-        $task = new Task();
-        $task->setTask('Write a blog post');
-        $task->setDueDate(new \DateTime('tomorrow'));
+        $order = new Checkout();
 
-        $form = $this->createFormBuilder($task)
-            ->add('task', TextType::class)
-            ->add('dueDate', DateType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
-            ->getForm();
+        $form = $this->createForm(CheckoutType::class, $order);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $order
+                ->setSessionId($this->session->getId())
+                ->setStatus('new');
+            $em->persist($order);
+            $em->flush();
+            $this->session->migrate();
+
+            return $this->redirectToRoute('index');
+        }
+
 
         return $this->render('main/ShopOrder.html.twig', array(
-            'title' => 'Оформление заказа',
+            'title'=> 'Оформление заказа',
             'form' => $form->createView(),
         ));
     }

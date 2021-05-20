@@ -3,8 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Checkout;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,43 +16,19 @@ class CheckoutType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('email')
-            //->add('number')
-            //->add('address')
-            //->add('name')
-
-            //->add('status', HiddenType::class)
-            ->add(
-                'email',
-                EmailType::class,
-                [
-                    'label' => 'email',
-                ]
+            ->add('name', TextType::class,
+                ['label' => 'ФИО']
             )
-            ->add(
-                'number',
-                TextType::class,
-                [
-                    'label' => 'Телефон',
-                ]
+            ->add('email', EmailType::class)
+            ->add('number', NumberType::class,
+                ['label' => 'Номер телефона']
             )
-            ->add(
-                'name',
-                TextType::class,
-                [
-                    'label' => 'Имя',
-                ]
+            ->add('address', TextType::class,
+                ['label' => 'Адрес']
             )
-            ->add(
-                'address',
-                TextType::class,
-                [
-                    'label'=>'Адрес'
-                ]
-            )
-            ->add('sessionId', HiddenType::class);
-
-        ;
+            ->add('save', SubmitType::class,
+                ['label' => 'Сохранить']
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
